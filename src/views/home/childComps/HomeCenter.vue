@@ -1,7 +1,18 @@
 <template>
   <div class="home-center">
+    <!-- 头部 -->
+    <div class="title">
+      <div class="song-checkbox">
+        <el-checkbox></el-checkbox>全选
+      </div>
+      <div class="song-name">歌曲</div>
+      <div class="song-artists">歌手</div>
+      <div class="song-duration">时长</div>
+    </div>
     <!-- 内容 -->
-    <div class="content"></div>
+    <div class="content">
+      <Song :songs="songSearch.songs" />
+    </div>
     <!-- 分页栏 -->
     <div class="block">
       <el-pagination
@@ -11,7 +22,7 @@
         :page-sizes="[20, 30]"
         :page-size="pageSize"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="total"
+        :total="songSearch.songCount"
       ></el-pagination>
     </div>
 
@@ -25,6 +36,8 @@
 <script type="text/javascript">
 import APlayer from "@moefe/vue-aplayer";
 
+import Song from "components/content/song/Song";
+
 export default {
   data() {
     return {
@@ -34,6 +47,7 @@ export default {
       currentPage: 1,
       //每页个数
       pageSize: 20,
+      //当前播放
       audio: {
         name: "响喜乱舞（Cover：MARiA）",
         artist: "泠鸢yousa",
@@ -43,8 +57,20 @@ export default {
       }
     };
   },
+  props: {
+    songSearch: {
+      type: Object,
+      default() {
+        return {};
+      }
+    }
+  },
   components: {
-    APlayer
+    APlayer,
+    Song
+  },
+  mounted() {
+    // console.log(this.songSearch);
   },
   methods: {
     handleSizeChange(val) {
@@ -64,14 +90,46 @@ export default {
 
   height: 100%;
 }
+.title {
+  display: flex;
+
+  width: 100%;
+  height: 50px;
+  line-height: 50px;
+
+  box-shadow: -1px -3px rgba(0, 0, 0, 0.05);
+  background-color: rgb(7, 152, 248);
+  color: #fff;
+}
+.song-checkbox {
+  text-align: center;
+
+  width: 90px;
+  padding-left: 5px;
+}
+.song-name {
+  flex: 1;
+}
+.song-artists {
+  flex: 1;
+}
+.song-duration {
+  width: 95px;
+}
+
 .content {
-  height: calc(100% - 192px);
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  height: calc(100% - 202px);
+  margin-bottom: 5px;
+
+  /* box-shadow: #666 0px 0px 5px inset; */
 }
 
 .block {
-  border-top: 2px solid rgba(0, 0, 0, 0.1);
-
   padding-top: 10px;
+  box-shadow: 0px -5px rgba(0, 0, 0, 0.05);
 }
 
 .el-pagination {

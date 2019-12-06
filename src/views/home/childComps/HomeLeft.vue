@@ -34,6 +34,8 @@ export default {
   height: 100%;
 
   border-right: 2px solid rgba(0, 0, 0, 0.05);
+
+  box-shadow: 2px 0 0 rgba(0, 0, 0, 0.1);
 }
 .el-collapse-item {
   overflow: hidden;

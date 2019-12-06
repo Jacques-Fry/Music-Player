@@ -1,0 +1,6 @@
+export const ADD_MUSIC_PLAYING = "add_music_playing"
+export const DEL_MUSIC_PLAYING = "del_music_playing"
+export const ADD_MUSIC_LOVE = "add_music_love"
+export const DEL_MUSIC_LOVE = "del_music_love"
+export const ADD_MUSIC_HISTORY = "add_music_history"
+export const DEL_MUSIC_HISTORY = "del_music_history"

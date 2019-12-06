@@ -10,8 +10,8 @@
     </div>
     <!-- Search -->
     <div class="search">
-      <el-input class="search-input" v-model="quare" placeholder="请输入搜索内容" />
-      <el-button class="search-button" type="warning" icon="el-icon-search">搜索</el-button>
+      <el-input class="search-input" v-model="keywords" placeholder="请输入搜索内容" @keyup.enter="search"/>
+      <el-button class="search-button" type="warning" icon="el-icon-search" @click="search">搜索</el-button>
     </div>
     <!-- User -->
     <div class="user">
@@ -27,8 +27,17 @@ export default {
   name: "HomeTitle",
   data() {
     return {
-      quare: ""
+      keywords: ""
     };
+  },
+  methods: {
+    search() {
+      if (this.keywords == null || this.keywords == "") {
+        this.$toast.show("输入框是空的 ◔ ‸◔？");
+      } else {
+        this.$emit("search", this.keywords);
+      }
+    }
   }
 };
 </script>
@@ -43,7 +52,9 @@ export default {
 
   background-color: rgb(7, 152, 248);
 }
-
+.logo {
+  width: 100px;
+}
 .logo img {
   padding: 12.5px 15px;
   width: 75px;

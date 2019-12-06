@@ -34,10 +34,14 @@ export default {
   transform: translate(-50%, -50%);
   z-index: 999;
 
-  padding: 8px 10px;
-  border-radius: 6%;
+  padding: 16px 20px;
+  border-radius: 10px;
 
   color: #fff;
   background-color: rgba(0, 0, 0, 0.75);
+
+  -webkit-box-shadow: #666 0px 0px 10px;
+  -moz-box-shadow: #666 0px 0px 10px;
+  box-shadow: #666 0px 0px 10px;
 }
 </style>
