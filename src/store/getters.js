@@ -1,8 +1,8 @@
 export default {
   getMusicPlayingListLength(state) {
-    return state.MusicPlayingList.length
+    return state.musicPlayingList.length
   },
   getMusicPlayingList(state) {
-    return state.MusicPlayingList
+    return state.musicPlayingList
   }
 }

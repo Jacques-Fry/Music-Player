@@ -4,17 +4,15 @@
       <el-checkbox v-model="song.checked" />
       {{song.checked|checkFilter}}
     </div>
-    <div class="song-name">{{song.name}}</div>
-    <div class="song-artists">{{artists}}</div>
+    <div class="song-name" :title="song.name">{{song.name}}</div>
+    <div class="song-artists" :title="artists">{{artists}}</div>
     <div class="song-duration">{{song.duration|formatDate}}</div>
   </div>
 </template>
 
 <script type="text/javascript">
 import { songUrl, lyric, songDetail } from "network/home.js";
-import { formatDate } from "common/utils";
-
-import { mapActions } from "vuex";
+import { formatDate, randomColor } from "common/utils";
 
 export default {
   name: "SongItem",
@@ -45,7 +43,6 @@ export default {
     // console.log(this.song);
   },
   methods: {
-    ...mapActions(["addMusicPlaying"]),
     boxCheck() {
       console.log(11);
     },
@@ -64,7 +61,8 @@ export default {
             id: this.song.id,
             name: this.song.name,
             artist: this.artists,
-            url: res.data[0].url
+            url: res.data[0].url,
+            theme: randomColor()
           };
           //获取歌词
           return lyric(this.song.id);
@@ -76,15 +74,13 @@ export default {
           return songDetail(this.song.id);
         })
         .then(res => {
-           if (!res) return;
+          if (!res) return;
           //得到图片url
           this.music.cover = res.songs[0].al.picUrl;
           // 发射事件切换歌曲
-          this.$bus.$emit("musicChange", this.music);
-          //添加至列表
-          this.addMusicPlaying(this.music).then(res => {
-            this.$toast.show(res);
-          });
+          // this.$bus.$emit("musicChange", this.music);
+          // 发射事件添加歌曲
+          this.$bus.$emit("addMusicPlayingOne", this.music);
         });
     }
   },

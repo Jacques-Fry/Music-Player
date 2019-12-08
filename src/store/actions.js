@@ -19,8 +19,7 @@ export default {
   //删除播放列表一首音乐
   delMusicPlaying({ state, commit }, payLoad) {
     return new Promise((resolve, reject) => {
-      commit(DEL_MUSIC_PLAYING, state.cartList.filter(item => item.id!==payLoad))
-      console.log(payLoad)
+      commit(DEL_MUSIC_PLAYING, payLoad)
       resolve("删除成功")
     })
   }

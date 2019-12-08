@@ -68,9 +68,9 @@ export function lyric(id) {
 }
 
 //歌曲评论
-export function commentMusic(id, limit, offset) {
+export function commentMusic(id, offset = 0, limit = 1) {
   return request({
-    url: '/check/music',
+    url: '/comment/music',
     params: {
       id,
       limit,

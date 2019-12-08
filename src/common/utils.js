@@ -28,6 +28,11 @@ export function formatDate(date, fmt) {
   return fmt;
 };
 
-function padLeftZero (str) {
+function padLeftZero(str) {
   return ('00' + str).substr(str.length);
 };
+
+//随机颜色
+export function randomColor() {
+  return `#${((Math.random() * 0xffffff) << 0).toString(16)}`;
+}

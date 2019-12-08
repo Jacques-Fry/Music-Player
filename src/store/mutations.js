@@ -5,7 +5,7 @@ export default {
     state.musicPlayingList.push(payLoad);
   },
   [DEL_MUSIC_PLAYING](state, payLoad) {
-    state.musicPlayingList = payLoad
+    state.musicPlayingList.splice(payLoad,1)
   },
   [ADD_MUSIC_LOVE]() {
 

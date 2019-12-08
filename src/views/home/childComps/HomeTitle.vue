@@ -10,7 +10,12 @@
     </div>
     <!-- Search -->
     <div class="search">
-      <el-input class="search-input" v-model="keywords" placeholder="请输入搜索内容" @keyup.enter.native="search"/>
+      <el-input
+        class="search-input"
+        v-model="keywords"
+        placeholder="请输入搜索内容"
+        @keyup.enter.native="search"
+      />
       <el-button class="search-button" type="warning" icon="el-icon-search" @click="search">搜索</el-button>
     </div>
     <!-- User -->
@@ -32,7 +37,11 @@ export default {
   },
   methods: {
     search() {
-      if (this.keywords == null || this.keywords == "") {
+      if (
+        this.keywords === null ||
+        this.keywords === "" ||
+        this.keywords.split(" ").join("").length == 0
+      ) {
         this.$toast.show("输入框是空的 ◔ ‸◔？");
       } else {
         this.$emit("search", this.keywords);
@@ -50,7 +59,8 @@ export default {
   width: 100%;
   height: 100px;
 
-  background-color: rgb(7, 152, 248);
+  background: url(~assets/img/topbar01.jpg) left center no-repeat;
+  background-size: cover;
 }
 .logo {
   width: 100px;

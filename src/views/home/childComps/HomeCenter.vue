@@ -35,8 +35,7 @@
 
     <!-- 播放器 -->
     <div>
-      <aplayer ref="aplayer" :audio="audio" :lrcType="1" />
-
+      <!-- <aplayer ref="aplayer" :audio="audio" :lrcType="1" /> -->
     </div>
   </div>
 </template>
@@ -83,7 +82,7 @@ export default {
   mounted() {
     // console.log(this.songList);
     //监听选择音乐临时播放
-    this.$bus.$on("musicChange", this.musicChange);
+    // this.$bus.$on("musicChange", this.musicChange);
   },
   components: {
     Song
@@ -114,7 +113,7 @@ export default {
       this.audio = music;
       //播放
       // this.$nextTick(() => {
-      this.$refs.aplayer.play();
+      // this.$refs.aplayer.play();
       // });
     },
     //全选
@@ -144,9 +143,12 @@ export default {
   line-height: 50px;
   font-weight: 600;
 
-  box-shadow: -1px -3px rgba(0, 0, 0, 0.05);
-  background-color: rgb(7, 152, 248);
+  /* box-shadow: -1px -3px rgba(0, 0, 0, 0.05); */
+  /* background-color: rgb(7, 152, 248); */
   color: #fff;
+  background: url(~assets/img/topbar01.jpg) left top no-repeat;
+  background-size: cover;
+  /* box-shadow:  0 0 2px #000; */
 }
 .song-checkbox {
   text-align: center;
@@ -169,8 +171,13 @@ export default {
   overflow-x: hidden;
   overflow-y: auto;
 
-  height: calc(100% - 202px);
+  height: calc(100% - 162px);
   margin-bottom: 5px;
+
+  background: url(~assets/img/topbar01.jpg) no-repeat;
+  background-size: cover;
+
+  color: #fff;
 
   /* box-shadow: #666 0px 0px 5px inset; */
 }
