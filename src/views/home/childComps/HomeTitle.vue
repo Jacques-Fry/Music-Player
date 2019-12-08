@@ -10,7 +10,7 @@
     </div>
     <!-- Search -->
     <div class="search">
-      <el-input class="search-input" v-model="keywords" placeholder="请输入搜索内容" @keyup.enter="search"/>
+      <el-input class="search-input" v-model="keywords" placeholder="请输入搜索内容" @keyup.enter.native="search"/>
       <el-button class="search-button" type="warning" icon="el-icon-search" @click="search">搜索</el-button>
     </div>
     <!-- User -->

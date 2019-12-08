@@ -3,7 +3,7 @@
     <!-- 头部 -->
     <div class="title">
       <div class="song-checkbox">
-        <el-checkbox></el-checkbox>全选
+        <el-checkbox v-model="isCheck" @click.native="boxCheck"></el-checkbox>多选
       </div>
       <div class="song-name">歌曲</div>
       <div class="song-artists">歌手</div>
@@ -11,7 +11,14 @@
     </div>
     <!-- 内容 -->
     <div class="content">
-      <Song :songs="songSearch.songs" />
+      <vue-scroll
+        v-loading="loading"
+        element-loading-text="拼命加载中"
+        element-loading-spinner="el-icon-loading"
+        element-loading-background="rgba(0, 0, 0, 0.5)"
+      >
+        <Song :songs="songList.songs" />
+      </vue-scroll>
     </div>
     <!-- 分页栏 -->
     <div class="block">
@@ -22,21 +29,22 @@
         :page-sizes="[20, 30]"
         :page-size="pageSize"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="songSearch.songCount"
+        :total="songList.songCount"
       ></el-pagination>
     </div>
 
     <!-- 播放器 -->
     <div>
-      <aplayer :audio="audio" :lrcType="3" :listFolded="true" />
+      <aplayer ref="aplayer" :audio="audio" :lrcType="1" />
+
     </div>
   </div>
 </template>
 
 <script type="text/javascript">
-import APlayer from "@moefe/vue-aplayer";
-
 import Song from "components/content/song/Song";
+
+import { songUrl, lyric } from "network/home.js";
 
 export default {
   data() {
@@ -49,37 +57,75 @@ export default {
       pageSize: 20,
       //当前播放
       audio: {
-        name: "响喜乱舞（Cover：MARiA）",
-        artist: "泠鸢yousa",
-        url: "https://cdn.moefe.org/music/mp3/kyoukiranbu.mp3",
-        cover: 'https://p1.music.126.net/AUGVPQ_rVrngDH9ocQrn3Q==/109951163613037822.jpg?param=300y300', // prettier-ignore
-        lrc: "https://cdn.moefe.org/music/lrc/kyoukiranbu.lrc"
-      }
+        name: "",
+        artist: "",
+        url: "",
+        cover: '', // prettier-ignore
+        lrc: ""
+      },
+      isCheck: false
     };
   },
   props: {
-    songSearch: {
+    songList: {
       type: Object,
       default() {
         return {};
       }
+    },
+    loading: {
+      type: Boolean,
+      default() {
+        return false;
+      }
     }
   },
+  mounted() {
+    // console.log(this.songList);
+    //监听选择音乐临时播放
+    this.$bus.$on("musicChange", this.musicChange);
+  },
   components: {
-    APlayer,
     Song
   },
-  mounted() {
-    // console.log(this.songSearch);
+
+  computed: {
+    // isSelectAll() {
+    //   if (!this.songList.songs || this.songList.songs.length === 0)
+    //     return false;
+    //   // console.log(!this.songList.songs.find(item => !item.checked));
+    //   return !this.songList.songs.find(item => !item.checked);
+    // }
   },
   methods: {
     handleSizeChange(val) {
       this.pageSize = val;
-      console.log(`每页 ${val} 条`);
+      this.currentPage = 1;
+      //发射事件
+      this.$emit("query", this.currentPage, this.pageSize);
     },
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
+      this.currentPage = val;
+      //发射事件
+      this.$emit("query", this.currentPage, this.pageSize);
+    },
+    musicChange(music) {
+      //接受music数据
+      this.audio = music;
+      //播放
+      // this.$nextTick(() => {
+      this.$refs.aplayer.play();
+      // });
+    },
+    //全选
+    boxCheck() {
+      console.log("1231231");
+      const isCheck = this.isCheck;
+      this.$emit("checkAll", !isCheck);
     }
+  },
+  beforDestroy() {
+    this.$bus.$off("vaPage"); //当这个组件销毁的时候bus也跟着一起销毁
   }
 };
 </script>
@@ -96,6 +142,7 @@ export default {
   width: 100%;
   height: 50px;
   line-height: 50px;
+  font-weight: 600;
 
   box-shadow: -1px -3px rgba(0, 0, 0, 0.05);
   background-color: rgb(7, 152, 248);
@@ -106,6 +153,7 @@ export default {
 
   width: 90px;
   padding-left: 5px;
+  font-size: 14px;
 }
 .song-name {
   flex: 1;
@@ -114,7 +162,7 @@ export default {
   flex: 1;
 }
 .song-duration {
-  width: 95px;
+  width: 80px;
 }
 
 .content {

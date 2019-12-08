@@ -1,5 +1,6 @@
 <template>
   <div class="home-left">
+     <vue-scroll>
     <el-collapse accordion>
       <el-collapse-item>
         <template slot="title">我喜欢</template>
@@ -16,6 +17,7 @@
         <div>帮助用户识别：界面简单直白，让用户快速识别而非回忆，减少用户记忆负担。</div>
       </el-collapse-item>
     </el-collapse>
+    </vue-scroll>
   </div>
 </template>
 

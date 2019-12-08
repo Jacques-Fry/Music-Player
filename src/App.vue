@@ -4,10 +4,12 @@
 
     <router-view />
     <!-- 音乐播放器 -->
-    <aplayer :audio="audio" :lrcType="0" fixed />
+    <aplayer :audio="audio" :lrcType="0" fixed /> 
   </div>
 </template>
 <script>
+import {mapGetters} from 'vuex'
+
 export default {
   name: "app",
   data() {

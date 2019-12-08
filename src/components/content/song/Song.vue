@@ -8,6 +8,11 @@
 import SongItem from "./SongItem";
 export default {
   name: "Song",
+  data(){
+    return {
+     
+    }
+  },
   props: {
     songs: {
       type: Array,
