@@ -22,15 +22,15 @@
                 ></el-image>
               </div>
               <div class="user-information">
-                <p>{{item.user.nickname}}</p>
-                <p style="font-size:12px;">{{item.time|formatDate}}</p>
+                <p style="font-weight: 600;">{{item.user.nickname}}</p>
+                <p style="font-size:12px;margin-top:5px;">{{item.time|formatDate}}</p>
               </div>
             </div>
             <div class="user-content">{{item.content}}</div>
           </div>
         </div>
 
-        <div class="prompt">当前没有数据 (/= _ =)/~┴┴</div>
+        <div v-else class="prompt">当前没有数据 (/= _ =)/~┴┴</div>
       </vue-scroll>
     </div>
 
@@ -129,23 +129,25 @@ export default {
 
   height: 32px;
   margin-left: 5px;
-  font-size: 16px;
+  font-size: 14px;
 }
 .user-content {
   text-align: justify;
   /* font-style: italic; */
 
-  margin: 5px 20px 0 37px;
+  margin: 10px 20px 0 37px;
   font-size: 13px;
 }
 
 .bottom {
   text-align: center;
+
+  box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.1);
 }
 
 .prompt {
   text-align: center;
-  line-height: 50px;
+  line-height: 100px;
 
   font-size: 14px;
 }

@@ -1,10 +1,26 @@
 <template>
   <div class="home-center">
+    <!-- 操作 -->
+    <div class="option">
+      <div class="song-select-count">
+        已选
+        <span>{{isSelectCount}}</span> 首
+      </div>
+      <div class="add-to-playing-list">
+        <el-button
+          :disabled="isSelectCount===0"
+          type="primary"
+          icon="el-icon-plus"
+          @click="addToMusicPlayingList"
+        >添加至播放列表</el-button>
+      </div>
+    </div>
     <!-- 头部 -->
     <div class="title">
       <div class="song-checkbox">
         <el-checkbox v-model="isCheck" @click.native="boxCheck"></el-checkbox>多选
       </div>
+      <div class="song-button"></div>
       <div class="song-name">歌曲</div>
       <div class="song-artists">歌手</div>
       <div class="song-duration">时长</div>
@@ -17,7 +33,13 @@
         element-loading-spinner="el-icon-loading"
         element-loading-background="rgba(0, 0, 0, 0.5)"
       >
-        <Song :songs="songList.songs" />
+        <HomeCenterSongItem
+          v-for="(item, index) in songList.songs"
+          :key="index"
+          :song="item"
+          :musicNowId="$parent.musicNowId"
+          :musicPaused="$parent.musicPaused()"
+        />
       </vue-scroll>
     </div>
     <!-- 分页栏 -->
@@ -41,7 +63,7 @@
 </template>
 
 <script type="text/javascript">
-import Song from "components/content/song/Song";
+import HomeCenterSongItem from "./HomeCenterSongItem";
 
 import { songUrl, lyric } from "network/home.js";
 
@@ -85,16 +107,16 @@ export default {
     // this.$bus.$on("musicChange", this.musicChange);
   },
   components: {
-    Song
+    HomeCenterSongItem
   },
 
   computed: {
-    // isSelectAll() {
-    //   if (!this.songList.songs || this.songList.songs.length === 0)
-    //     return false;
-    //   // console.log(!this.songList.songs.find(item => !item.checked));
-    //   return !this.songList.songs.find(item => !item.checked);
-    // }
+    isSelectCount() {
+      if (!this.songList.songs || this.songList.songs.length === 0)
+        return false;
+      // console.log(!this.songList.songs.find(item => !item.checked));
+      return this.songList.songs.filter(item => item.checked).length;
+    }
   },
   methods: {
     handleSizeChange(val) {
@@ -118,9 +140,12 @@ export default {
     },
     //全选
     boxCheck() {
-      console.log("1231231");
       const isCheck = this.isCheck;
       this.$emit("checkAll", !isCheck);
+    },
+    //添加多个音乐至播放列表
+    addToMusicPlayingList() {
+      this.$toast.show("功能开发中");
     }
   },
   beforDestroy() {
@@ -134,6 +159,21 @@ export default {
   position: relative;
 
   height: 100%;
+}
+.option {
+  display: flex;
+
+  line-height: 50px;
+}
+.song-select-count {
+  width: 80px;
+  padding: 0 20px;
+}
+.song-select-count span {
+  color: #0798f8;
+}
+.add-to-playing-list {
+  padding: 0 20px;
 }
 .title {
   display: flex;
@@ -153,9 +193,12 @@ export default {
 .song-checkbox {
   text-align: center;
 
-  width: 90px;
+  width: 70px;
   padding-left: 5px;
   font-size: 14px;
+}
+.song-button {
+  width: 30px;
 }
 .song-name {
   flex: 1;
@@ -171,7 +214,7 @@ export default {
   overflow-x: hidden;
   overflow-y: auto;
 
-  height: calc(100% - 162px);
+  height: calc(100% - 212px);
   margin-bottom: 5px;
 
   background: url(~assets/img/topbar01.jpg) no-repeat;

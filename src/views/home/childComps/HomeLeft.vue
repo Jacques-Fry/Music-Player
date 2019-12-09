@@ -1,35 +1,49 @@
 <template>
   <div class="home-left">
-    <vue-scroll class="vue-scroll">
-      <div class="content-collapse">
-        <el-collapse v-model="activeName" accordion>
-          <!-- <el-collapse-item>
+    <div class="vue-scroll">
+      <vue-scroll>
+        <div class="content-collapse">
+          <el-collapse v-model="activeName" accordion>
+            <!-- <el-collapse-item>
           <template slot="title">我喜欢</template>
         </el-collapse-item>
         <el-collapse-item title="最近听过">
-          </el-collapse-item>-->
-          <el-collapse-item :title="musicPlayingListLength" name="1">
-            <div
-              class="song"
-              v-for="(item,index) in musicPlayingList"
-              :key="index"
-              @dblclick="changeMusic(index)"
-              :class="{active:musicIndex===index }"
-            >
-              <div class="song-name" :title="item.name">{{item.name}}</div>
+            </el-collapse-item>-->
+            <el-collapse-item :title="musicPlayingListLength" name="1">
+              <div
+                class="song"
+                v-for="(item,index) in musicPlayingList"
+                :key="index"
+                @dblclick="changeMusic(index)"
+                :class="{active:musicIndex===index }"
+              >
+                <div class="song-button">
+                  <!-- 播放中 -->
+                  <i
+                    v-if="musicIndex===index&&!$parent.musicPaused()"
+                    class="el-icon-video-pause"
+                    @click="musicPause"
+                  ></i>
+                  <!-- 未播放 -->
+                  <i v-else class="el-icon-video-play" @click="changeMusic(index)"></i>
+                </div>
+                <div class="song-name" :title="item.name">{{item.name}}</div>
 
-              <div class="song-artist" :title="item.artist">{{item.artist}}</div>
-              <div class="song-delete" @click="removeSong(index)">X</div>
-            </div>
-          </el-collapse-item>
-        </el-collapse>
-      </div>
-    </vue-scroll>
+                <div class="song-artist" :title="item.artist">{{item.artist}}</div>
+                <div class="song-delete" @click="removeSong(index)">X</div>
+              </div>
+
+              <div class="song-clear" @click="clearSong">清空此列表</div>
+            </el-collapse-item>
+          </el-collapse>
+        </div>
+      </vue-scroll>
+    </div>
   </div>
 </template>
 
 <script type="text/javascript">
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   data() {
@@ -48,23 +62,54 @@ export default {
       getMusicPlayingListLength: "getMusicPlayingListLength"
     }),
     musicPlayingListLength() {
-      return "当前列表(" + this.getMusicPlayingListLength + ")";
+      return "当前播放列表(" + this.getMusicPlayingListLength + ")";
     }
   },
 
   methods: {
+    ...mapActions(["clearMusicPlaying"]),
     //移除音乐
     removeSong(index) {
-      console.log("移除---" + index);
+      // console.log("移除---" + index);
       //发射事件
       this.$bus.$emit("delMusicPlayingOne", index);
     },
     //切换音乐
     changeMusic(index) {
       this.$bus.$emit("changeMusic", index);
+    },
+    //暂停音乐
+    musicPause() {
+      this.$bus.$emit("musicPause");
+    },
+    //清空列表
+    clearSong() {
+      const h = this.$createElement;
+      this.$msgbox({
+        title: "消息",
+        message: h("p", null, [
+          h("span", null, "确定清空 "),
+          h("span", { style: "color: red" }, "当前播放列表吗?")
+        ]),
+        showCancelButton: true,
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        beforeClose: (action, instance, done) => {
+          if (action === "confirm") {
+            instance.confirmButtonLoading = true;
+            instance.confirmButtonText = "执行中...";
+            this.clearMusicPlaying([]).then(res => {
+              instance.confirmButtonLoading = false;
+              done();
+              this.$toast.show(res);
+            });
+          } else {
+            done();
+          }
+        }
+      });
     }
-  },
-  components: {}
+  }
 };
 </script>
 
@@ -73,7 +118,7 @@ export default {
   position: relative;
 
   width: 300px;
-  height: calc(100%);
+  height: 100%;
 
   /* border-right: 2px solid rgba(0, 0, 0, 0.05); */
 
@@ -81,7 +126,7 @@ export default {
 }
 
 .vue-scroll {
-  height: calc(100% - 100px);
+  height: calc(100% - 112px);
 }
 .content-collapse {
   width: 298px;
@@ -89,8 +134,9 @@ export default {
 .el-collapse-item {
   overflow: hidden;
 
-  padding-left: 5px;
-  background-color: rgba(255, 255, 255, 1);
+  text-indent: 5px;
+
+  /* background-color: rgba(255, 255, 255, 1); */
 }
 
 /* .el-collapse-item__header {
@@ -113,6 +159,9 @@ export default {
 .song:hover {
   background-color: rgba(0, 0, 0, 0.1);
 }
+.song-button:hover {
+  cursor: pointer;
+}
 .song-name {
   overflow: hidden;
   flex: 1;
@@ -132,5 +181,19 @@ export default {
 }
 .active {
   background-color: rgba(0, 0, 0, 0.1);
+}
+.song-clear {
+  text-align: center;
+  position: relative;
+  top: 15px;
+  cursor: pointer;
+
+  font-weight: 600;
+
+  color: #9c9c9c;
+}
+
+.song-clear:hover {
+  color: #6d6d6d;
 }
 </style>

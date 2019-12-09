@@ -5,7 +5,7 @@
     <!-- 页面主体 -->
     <div class="content">
       <!-- 页面左边 -->
-      <HomeLeft class="home-left" :music-index="musicIndex"/>
+      <HomeLeft class="home-left" :music-index="musicIndex" />
       <!-- 页面中间 -->
       <HomeCenter
         ref="HomeCenter"
@@ -106,21 +106,24 @@ export default {
     },
     //监听全选
     checkAll(isCheck) {
-      console.log(isCheck);
+      // console.log(isCheck);
       this.data.result.songs.forEach(item => {
         item.checked = isCheck;
       });
     },
     //执行歌曲搜索
     search() {
-      this.loading = true;
+      this.songsLoading = true;
       search(this.keywords, this.songsOffset, this.songsLimit).then(res => {
-        console.log(res);
+        // console.log(res);
         res.result.songs.forEach(item => {
           item.checked = false;
         });
         this.data = res;
-        this.loading = false;
+        this.songsLoading = false;
+
+        //取消全选
+        this.$refs.HomeCenter.isCheck = false;
       });
     },
     //监听评论分页
@@ -133,7 +136,7 @@ export default {
       this.commentsLoading = true;
       commentMusic(this.musicId, this.commentsOffset, this.commentsLimit).then(
         res => {
-          console.log(res);
+          // console.log(res);
           this.commentsData = res;
 
           this.commentsLoading = false;
