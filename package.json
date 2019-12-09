@@ -1,6 +1,6 @@
 {
-  "name": "music-player",
-  "version": "0.1.0",
+  "name": "Music-Player Music升级版",
+  "version": "1.1.0",
   "main": "./dist/electron.js",
   "private": true,
   "scripts": {

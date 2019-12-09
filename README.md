@@ -1,19 +1,18 @@
-# music-player
+# Music-Player Music升级版
 
-## Project setup
+## 项目安装
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### 项目部署
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+### 项目打包
 ```
 npm run build
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+与前版相比页面构造更加美观、更多评论获取、播放器、音乐分页搜索
