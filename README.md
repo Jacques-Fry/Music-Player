@@ -1,6 +1,6 @@
 # Music-Player Music升级版
 
-## 项目安装
+### 项目安装
 ```
 npm install
 ```
