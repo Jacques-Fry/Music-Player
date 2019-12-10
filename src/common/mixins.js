@@ -52,12 +52,13 @@ export const MusicAPlayerMixIn = {
       this.addMusicPlaying(music).then(res => {
         if (res) {
           this.$toast.show(res)
-          //切换播放
-          this.$refs.aplayer.switch(this.musicPlayingList.findIndex(item => {
-            if (item.id === music.id) return true;
-          }));
-        };
 
+        }
+        //切换播放
+        this.$refs.aplayer.switch(this.musicPlayingList.findIndex(item => {
+          if (item.id === music.id) return true;
+        }));
+        
         this.$refs.aplayer.toggle()
 
       });
@@ -77,7 +78,7 @@ export const MusicAPlayerMixIn = {
         this.commentsOffset = 0
         this.commentMusic()
       }
-      if (index&&this.musicIndex !== index) {
+      if ((index === 0 || index) && this.musicIndex !== index) {
         this.$refs.aplayer.switch(index);
       }
       this.$refs.aplayer.toggle()

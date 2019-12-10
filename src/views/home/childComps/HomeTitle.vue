@@ -6,7 +6,7 @@
     </div>
     <!-- Title -->
     <div class="title">
-      <span>Music</span>
+      <span>Music 2.0</span>
     </div>
     <!-- Search -->
     <div class="search">

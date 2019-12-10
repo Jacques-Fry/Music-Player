@@ -18,7 +18,7 @@
     <!-- 头部 -->
     <div class="title">
       <div class="song-checkbox">
-        <el-checkbox v-model="isCheck" @click.native="boxCheck"></el-checkbox>多选
+        <el-checkbox v-model="isCheck" @click.native="boxCheck"></el-checkbox>&nbsp;多选
       </div>
       <div class="song-button"></div>
       <div class="song-name">歌曲</div>
@@ -160,6 +160,7 @@ export default {
 
   height: 100%;
 }
+
 .option {
   display: flex;
 
