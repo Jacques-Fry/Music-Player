@@ -160,6 +160,7 @@ export default {
 
   height: 100%;
 }
+
 .option {
   display: flex;
 
