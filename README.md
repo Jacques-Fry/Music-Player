@@ -1,4 +1,4 @@
-# Music-Player Music升级版
+# Music-Player Music升级版(原创)
 
 ### 项目安装
 ```
