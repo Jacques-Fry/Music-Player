@@ -42,6 +42,8 @@ export const MusicAPlayerMixIn = {
     ...mapActions(["addMusicPlaying", "delMusicPlaying"]),
     //监听添加音频
     addMusicPlayingOne(music) {
+      console.log(music)
+      console.log(222)
       // console.log(this.$refs.aplayer.currentMusic);
       this.musicId = music.id
       //重新渲染评论

@@ -177,6 +177,7 @@ export default {
   color: rgba(41, 40, 40, 0.4);
 }
 .song-delete:hover {
+  cursor: pointer;
   color: rgb(7, 152, 248);
 }
 .active {

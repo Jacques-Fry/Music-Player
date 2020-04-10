@@ -26,6 +26,7 @@
 
       <!-- 音乐播放器 -->
       <aplayer
+        class="aplayer"
         ref="aplayer"
         :audio="musicPlayingList"
         :lrcType="1"
@@ -153,8 +154,9 @@ export default {
   position: relative;
   overflow: hidden;
 
-  width: 100vw;
-  height: 100vh;
+  max-width: 100vw;
+  min-width: 100%;
+  min-height: 100vh;
 }
 .content {
   display: flex;
@@ -164,5 +166,8 @@ export default {
 
 .home-center {
   flex: 1;
+}
+
+.aplayer {
 }
 </style>
